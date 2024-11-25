@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 16px;
+            font-size: 14px;
+        }
+        .calculator-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #4763E4;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 8px 8px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .header p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 16px;
+        }
+        .input-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .input-field {
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .input-field label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #1e293b;
+            font-size: 12px;
+        }
+        .input-field input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .helper-text {
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+        .calculate-btn {
+            background: #4763E4;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .result-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+        }
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+        .step-number {
+            background: #4763E4;
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+        .result-title {
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .formula {
+            color: #64748b;
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+        .result-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4763E4;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="header">
+            <h1>Capacity Allocation ROI Calculator</h1>
+            <p>Premium Tool for Semiconductor Industry Professionals</p>
+        </div>
+
+        <div class="content">
+            <div class="input-section">
+                <div class="input-field">
+                    <label>Annual Wafer Demand</label>
+                    <input type="number" id="annualWafers" value="30000">
+                </div>
+                <div class="input-field">
+                    <label>Wafer Cost ($)</label>
+                    <input type="number" id="waferCost" value="24000">
+                </div>
+                <div class="input-field">
+                    <label>Upside Flexibility (%)</label>
+                    <input type="number" id="upsidePercent" value="20">
+                </div>
+                <div class="input-field">
+                    <label>Prepayment (%)</label>
+                    <input type="number" id="prepaymentPercent" value="10">
+                </div>
+                <div class="input-field">
+                    <label>Price Discount (%)</label>
+                    <input type="number" id="discountPercent" value="5">
+                    <div class="helper-text">Discount for prepayment</div>
+                </div>
+                <div class="input-field">
+                    <label>Forecast Accuracy (%)</label>
+                    <input type="number" id="forecastAccuracy" value="90">
+                </div>
+                <div class="input-field">
+                    <label>Expected Growth (%)</label>
+                    <input type="number" id="expectedGrowth" value="20">
+                </div>
+            </div>
+
+            <button onclick="calculate()" class="calculate-btn">Calculate ROI</button>
+
+            <div class="results-grid">
+                <div class="result-item">
+                    <div class="result-header">
+                        <div class="step-number">1</div>
+                        <div class="result-title">Base Cost</div>
+                    </div>
+                    <div class="formula">Annual Wafers × Wafer Cost</div>
+                    <div id="baseCost" class="result-value">$720.0M</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-header">
+                        <div class="step-number">2</div>
+                        <div class="result-title">Prepayment</div>
+                    </div>
+                    <div class="formula">Base Cost × Prepayment%</div>
+                    <div id="prepayment" class="result-value">$72.0M</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-header">
+                        <div class="step-number">3</div>
+                        <div class="result-title">Cost Savings</div>
+                    </div>
+                    <div class="formula">Base Cost × Discount%</div>
+                    <div id="savings" class="result-value">$36.0M</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-header">
+                        <div class="step-number">4</div>
+                        <div class="result-title">Flexibility Value</div>
+                    </div>
+                    <div class="formula">Upside × Margin × Growth%</div>
+                    <div id="flexValue" class="result-value">$38.9M</div>
+                </div>
+
+                <div class="result-item">
+                    <div class="result-header">
+                        <div class="step-number">5</div>
+                        <div class="result-title">Risk-Adjusted ROI</div>
+                    </div>
+                    <div class="formula">(Savings + Flex) / Prepay</div>
+                    <div id="roi" class="result-value">208.0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add input event listeners
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+
+        function calculate() {
+            const annualWafers = Number(document.getElementById('annualWafers').value);
+            const waferCost = Number(document.getElementById('waferCost').value);
+            const upsidePercent = Number(document.getElementById('upsidePercent').value);
+            const prepaymentPercent = Number(document.getElementById('prepaymentPercent').value);
+            const discountPercent = Number(document.getElementById('discountPercent').value);
+            const forecastAccuracy = Number(document.getElementById('forecastAccuracy').value);
+            const expectedGrowth = Number(document.getElementById('expectedGrowth').value);
+
+            const baselineCost = annualWafers * waferCost;
+            const prepaymentAmount = baselineCost * (prepaymentPercent / 100);
+            const costSavings = baselineCost * (discountPercent / 100);
+            
+            const upsideCapacity = annualWafers * (upsidePercent / 100);
+            const margin = 1.5;
+            const flexibilityValue = upsideCapacity * waferCost * margin * (expectedGrowth / 100);
+            const riskAdjustedFlexValue = flexibilityValue * (forecastAccuracy / 100);
+
+            let roi = 0;
+            if (prepaymentAmount > 0) {
+                roi = ((costSavings + riskAdjustedFlexValue) / prepaymentAmount) * 100;
+            }
+
+            document.getElementById('baseCost').textContent = `$${(baselineCost / 1000000).toFixed(1)}M`;
+            document.getElementById('prepayment').textContent = `$${(prepaymentAmount / 1000000).toFixed(1)}M`;
+            document.getElementById('savings').textContent = `$${(costSavings / 1000000).toFixed(1)}M`;
+            document.getElementById('flexValue').textContent = `$${(riskAdjustedFlexValue / 1000000).toFixed(1)}M`;
+            document.getElementById('roi').textContent = `${roi.toFixed(1)}%`;
+        }
+
+        // Initial calculation
+        calculate();
+    </script>
+</body>
+</html>
